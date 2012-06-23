@@ -2,7 +2,7 @@
  *
  * The original cowsay program in C
  * By: Aaron
- * June 22, 2012
+ * Started: June 22, 2012
  *
  */
 
