@@ -33,68 +33,104 @@ void displayhelp(void);
 void displaycowlist(void);
 
 ////////////////
-//Varables
+//Variables
 //////
 unsigned int counter;
 unsigned int argscharcount=0;
 
 int main(int argc, char *argv[]) {
 
-	/*Handle Arguments*/
-	if( argc == 1 ) {
-		displayhelp();
-		exit(1);
-	}
-	for (counter=1; counter < argc; counter++) {
-		if ( !strcmp(argv[counter], "-h") || !strcmp(argv[counter], "--help") ) {
-			displayhelp();
-			exit(0);
-		}
-		else if ( !strcmp(argv[counter], "-l") || !strcmp(argv[counter], "--list") ) {
-			displaycowlist();
-			exit(0);
-		}
-	}
-	
-	for(counter=1; counter < argc; counter++) {
-		if (counter == ( argc - 1)) {
-			argscharcount=(argscharcount + (strlen(argv[counter])));
-		}
-		else {
-			argscharcount=(argscharcount + (strlen(argv[counter])) + 1);
-		}
-	}
-	argscharcount=argscharcount + 2;
-	
-	printf(" ");
-	for(counter=1; counter <= argscharcount; counter++) {
-		printf("_");
-	}
-	printf("\n< ");
-	for(counter=1; counter < argc; counter++) {
-		if( counter == ( argc - 1 )) {
-			printf("%s", argv[counter]);
-		}
-		else {
-			printf("%s ", argv[counter]);
-		}
-	}
-	printf(" >\n ");
-	for(counter=1; counter <= argscharcount; counter++) {
-		printf("-");
-	}
-	printf("\n");
-	printcow();
-	return 0;
-	
+    /*Handle Arguments*/
+    if( argc == 1 ) {
+        displayhelp();
+        exit(1);
+    }
+    for (counter=1; counter < argc; counter++) {
+        if ( !strcmp(argv[counter], "-h") || !strcmp(argv[counter], "--help") ) {
+            displayhelp();
+            exit(0);
+        }
+        else if ( !strcmp(argv[counter], "-l") || !strcmp(argv[counter], "--list") ) {
+            displaycowlist();
+            exit(0);
+        }
+    }
+    
+    for(counter=1; counter < argc; counter++) {
+        if (counter == ( argc - 1)) {
+            argscharcount=(argscharcount + (strlen(argv[counter])));
+        }
+        else {
+            argscharcount=(argscharcount + (strlen(argv[counter])) + 1);
+        }
+    }
+    argscharcount=argscharcount + 2;
+    
+    printf(" ");
+    for(counter=1; counter <= argscharcount; counter++) {
+        printf("_");
+    }
+    printf("\n< ");
+    for(counter=1; counter < argc; counter++) {
+        if( counter == ( argc - 1 )) {
+            printf("%s", argv[counter]);
+        }
+        else {
+            printf("%s ", argv[counter]);
+        }
+    }
+    printf(" >\n ");
+    for(counter=1; counter <= argscharcount; counter++) {
+        printf("-");
+    }
+    printf("\n");
+    printcow();
+    return 0;
+    
 }
 
 void displaycowlist(void) {
-	printf("beavis.zen\tBeavis, with Zen philosophy removed.\n");
+    printf("beavis.zen\tBeavis, with Zen philosophy removed.\n\
+bong\tA cow with a bong, from lars@csua.berkeley.edu\n\
+bud-frogs\tThe Budweiser frogs\n\
+bunny\tA cute little wabbit\n\
+cheese\tThe cheese from milk & cheese\n\
+cower\tA cowering cow\n\
+daemon\t4.4 >> 5.4\n\
+dragon-and-cow\tA dragon smiting a cow, possible credit to kube@csua.berkeley.edu\n\
+dragon\tThe Whitespace Dragon\n\
+elephant\tAn elephant out and about\n\
+elephant-in-snake\tDo we need to explain this?\n\
+eyes\tEvil-looking eyes\n\
+flaming-sheep\tThe flaming sheep, contributed by Geordan Rosario (geordan@csua.berkeley.edu)\n\
+ghostbusters\tGhostbusters!\n\
+head-in\tGo stick yer head in a cow.\n\
+hellokitty\tHello Kitty\n\
+kiss\tA lovers' empbrace\n\
+kitty\tA kitten of sorts, I think\n\
+koala\tFrom the canonical koala collection\n\
+kosh\tIt's a Kosh Cow!\n\
+luke-koala\tFrom the canonical koala collection\n\
+meow\tA meowing tiger?\n\
+milk\tMilk from Milk and Cheese\n\
+moofasa\tMOOfasa.\n\
+mutilated\tA mutilated cow, from aspolito@csua.berkeley.edu\n\
+ren\tRen\n\
+sheep\tThe non-flaming sheep.\n\
+skeleton\tThis 'Scowleton' brought to you by one of {appel,kube,rowe}@csua.berkeley.edu\n\
+stegosaurus\tA stegosaur with a top hat?\n\
+stimpy\tStimpy!\n\
+three-eyes\tA cow with three eyes, brought to you by dpetrou@csua.berkeley.edu\n\
+turkey\tTurkey!\n\
+turtle\tA mysterious turtle...\n\
+tux\tTuX (c) pborys@p-soft.silesia.linux.org.pl\n\
+vader\tCowth Vader, from geordan@csua.berkeley.edu\n\
+vader-koala\tAnother canonical koala?\n\
+www\tA cow wadvertising the World Wide Web, from lim@csua.berkeley.edu\n");
 }
 
 void displayhelp(void) {
-	printf("\nThis program displays all of its arguments in a speech bubble.\n\
+    printf("This program displays all of its arguments in a speech bubble.\n\
 With your choice of animal/person/thing underneath it. Or in\n\
 other words this program is a re-make of the famous Perl\n\
 program ``cowsay\"\n\
@@ -109,7 +145,7 @@ Flags:\n\
 }
 
 void printcow(void) {
-	/*printf("   \\         __------~~-,\n\
+/*printf("   \\         __------~~-,\n\
     \\      ,'            ,\n\
           /               \\\n\
          /                :\n\
@@ -127,5 +163,9 @@ void printcow(void) {
                 \\      |\n\
               __/-___-- -__\n\
              /            _ \\\n");*/
-	printf("        \\   ^__^\n         \\  (oo)\\_______\n            (__)\\       )\\/\\\n                ||----w |\n                ||     ||\n");
+printf("        \\   ^__^\n\
+         \\  (oo)\\_______\n\
+            (__)\\       )\\/\\\n\
+                ||----w |\n\
+                ||     ||\n");
 }
