@@ -21,9 +21,16 @@
  *
  */
 
+/* TO DO:
+    - Cowthink
+    - Tongue string
+*/
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+//#include <stdlib.h>
 
 ////////////////
 //Functions
@@ -35,29 +42,46 @@ void displaycowlist(void);
 ////////////////
 //Variables
 //////
+
+char eyes='o';
+
 unsigned int counter;
 unsigned int argscharcount=0;
+unsigned int nextarg;
 
 int main(int argc, char *argv[]) {
 
     /*Handle Arguments*/
     if( argc == 1 ) {
         displayhelp();
-        exit(1);
+        exit(EXIT_FAILURE);
     }
     for (counter=1; counter < argc; counter++) {
-        if ( !strcmp(argv[counter], "-h") || !strcmp(argv[counter], "--help") ) {
+        if ( !strcmp(argv[counter], "-e") || !strcmp(argv[counter], "--eyes") ) {
+            nextarg=(counter + 1);
+            if ( strlen(argv[nextarg]) == 1 ) {
+                strcpy(&eyes,argv[nextarg]);
+            }
+            else {
+                displayhelp();
+                exit(EXIT_FAILURE);
+            }
+        }
+        else if ( !strcmp(argv[counter], "-h") || !strcmp(argv[counter], "--help") ) {
             displayhelp();
-            exit(0);
+            exit(EXIT_SUCCESS);
         }
         else if ( !strcmp(argv[counter], "-l") || !strcmp(argv[counter], "--list") ) {
             displaycowlist();
-            exit(0);
+            exit(EXIT_SUCCESS);
         }
     }
     
     for(counter=1; counter < argc; counter++) {
-        if (counter == ( argc - 1)) {
+/*        if ( !strcmp(argv[counter], "-c") || !strcmp(argv[counter], "--cow") || !strcmp(argv[counter], "-e") || !strcmp(argv[counter], "--eyes")) {
+            counter++;
+        }
+        else */if (counter == ( argc - 1)) {
             argscharcount=(argscharcount + (strlen(argv[counter])));
         }
         else {
@@ -126,7 +150,7 @@ turtle\tA mysterious turtle...\n\
 tux\tTuX (c) pborys@p-soft.silesia.linux.org.pl\n\
 vader\tCowth Vader, from geordan@csua.berkeley.edu\n\
 vader-koala\tAnother canonical koala?\n\
-www\tA cow wadvertising the World Wide Web, from lim@csua.berkeley.edu\n");
+www\tA cow advertising the World Wide Web, from lim@csua.berkeley.edu\n");
 }
 
 void displayhelp(void) {
@@ -136,12 +160,14 @@ other words this program is a re-make of the famous Perl\n\
 program ``cowsay\"\n\
 \n\
 Usage:\n\
+    The flags should be the first set of arguments.\n\
     ccowsay <flag(s)> Sentence to say\n\
 \n\
 Flags:\n\
     -h or --help - Displays this help text.\n\
     -l or --list - List all cowfiles.\n\
-    -c or --cow  - Specify cowfile.\n");
+    -c or --cow  - Specify cowfile.\n\
+    -e or --eyes - Specify character used for the eyes. Must be ONE character\n");
 }
 
 void printcow(void) {
@@ -163,9 +189,20 @@ void printcow(void) {
                 \\      |\n\
               __/-___-- -__\n\
              /            _ \\\n");*/
+/*printf("         \\\n\
+          \\\n\
+            ^__^\n\
+    _______/(%c%c)\n\
+/\\/(       /(__)\n\
+   | W----|| |~|\n\
+   ||     || |~|  ~~\n\
+             |~|  ~\n\
+             |_| o\n\
+             |#|/\n\
+            _+#+_\n", eyes, eyes);*/
 printf("        \\   ^__^\n\
-         \\  (oo)\\_______\n\
+         \\  (%c%c)\\_______\n\
             (__)\\       )\\/\\\n\
                 ||----w |\n\
-                ||     ||\n");
+                ||     ||\n", eyes, eyes);
 }
