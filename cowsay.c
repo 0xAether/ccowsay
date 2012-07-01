@@ -22,9 +22,11 @@
  */
 
 /* TO DO:
+    - Move printcow to its own file
     - Cowthink
     - Tongue string
 */
+
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -46,6 +48,7 @@ char eyes='o';
 unsigned int counter;
 unsigned int argscharcount=0;
 unsigned int nextarg;
+unsigned short skiparg;
 
 int main(int argc, char *argv[]) {
 
@@ -74,30 +77,40 @@ int main(int argc, char *argv[]) {
             exit(EXIT_SUCCESS);
         }
     }
-    
+
+    /* Count characters in non-flag arguments */
     for(counter=1; counter < argc; counter++) {
-/*        if ( !strcmp(argv[counter], "-c") || !strcmp(argv[counter], "--cow") || !strcmp(argv[counter], "-e") || !strcmp(argv[counter], "--eyes")) {
+        skiparg=0;
+        if ( !strcmp(argv[counter], "-c") || !strcmp(argv[counter], "--cow") || !strcmp(argv[counter], "-e") || !strcmp(argv[counter], "--eyes")) {
+            skiparg=1;
             counter++;
         }
-        else */if (counter == ( argc - 1)) {
+        else if (counter < argc && skiparg == 0) {
             argscharcount=(argscharcount + (strlen(argv[counter])));
         }
-        else {
-            argscharcount=(argscharcount + (strlen(argv[counter])) + 1);
-        }
+    }
+    if (argscharcount == 0) {
+        displayhelp();
+        exit(EXIT_FAILURE);
     }
     argscharcount=argscharcount + 2;
-    
+
+    /* Display speech bubble */
     printf(" ");
     for(counter=1; counter <= argscharcount; counter++) {
         printf("_");
     }
     printf("\n< ");
     for(counter=1; counter < argc; counter++) {
-        if( counter == ( argc - 1 )) {
+        skiparg=0;
+        if ( !strcmp(argv[counter], "-c") || !strcmp(argv[counter], "--cow") || !strcmp(argv[counter], "-e") || !strcmp(argv[counter], "--eyes")) {
+            skiparg=1;
+            counter++;
+        }
+        else if ( counter < argc && skiparg == 0) {
             printf("%s", argv[counter]);
         }
-        else {
+        else if (skiparg == 0) {
             printf("%s ", argv[counter]);
         }
     }
