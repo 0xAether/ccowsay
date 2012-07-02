@@ -1,1 +1,19 @@
-I am re-writing the cowsay command in C. I plan on making it to be exactly (if not, almost exactly) like the original program.
+ccowsay
+=======
+This program displays all of its arguments in a speech bubble.
+With your choice of animal/person/thing underneath it. Or in
+other words this program is a re-make of the famous Perl
+program ``cowsay"
+
+Man Page
+--------
+Usage:
+    The flags should be the first set of arguments.
+    ccowsay <flag(s)> Sentence to say
+
+Flags:
+    -h or --help    - Displays this help text
+    -l or --list    - List all cowfiles
+    -c or --cow     - Specify cowfile
+    -e or --eyes    - Specify character used for the eyes. Must be ONE character!
+    -t or --thought - Thought bubble
