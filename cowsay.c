@@ -23,7 +23,6 @@
 
 /* TO DO:
     - Move printcow to its own file
-    - Cowthink
     - Tongue string
 */
 
@@ -42,13 +41,15 @@ void displaycowlist(void);
 ////////////////
 //Variables
 //////
-
 char eyes='o';
+char upperbubble='\\';
+char lowerbubble='\\';
 
 unsigned int counter;
 unsigned int argscharcount=0;
 unsigned int nextarg;
 unsigned short skiparg;
+unsigned short thought=0;
 
 int main(int argc, char *argv[]) {
 
@@ -61,12 +62,17 @@ int main(int argc, char *argv[]) {
         if ( !strcmp(argv[counter], "-e") || !strcmp(argv[counter], "--eyes") ) {
             nextarg=(counter + 1);
             if ( strlen(argv[nextarg]) == 1 ) {
-                strcpy(&eyes,argv[nextarg]);
+                strcpy(&eyes, argv[nextarg]);
             }
             else {
                 displayhelp();
                 exit(EXIT_FAILURE);
             }
+        }
+        else if ( !strcmp(argv[counter], "-t") || !strcmp(argv[counter], "--thought") ) {
+            thought=1;
+            strcpy(&upperbubble, "O");
+            strcpy(&lowerbubble, "o");
         }
         else if ( !strcmp(argv[counter], "-h") || !strcmp(argv[counter], "--help") ) {
             displayhelp();
@@ -81,47 +87,62 @@ int main(int argc, char *argv[]) {
     /* Count characters in non-flag arguments */
     for(counter=1; counter < argc; counter++) {
         skiparg=0;
-        if ( !strcmp(argv[counter], "-c") || !strcmp(argv[counter], "--cow") || !strcmp(argv[counter], "-e") || !strcmp(argv[counter], "--eyes")) {
+        if ( !strcmp(argv[counter], "-c") || !strcmp(argv[counter], "--cow") || !strcmp(argv[counter], "-e") || !strcmp(argv[counter], "--eyes") ) {
             skiparg=1;
             counter++;
         }
+        else if ( !strcmp(argv[counter], "-t") || !strcmp(argv[counter], "--thought") ) {
+            skiparg=1;
+        }
         else if (counter < argc && skiparg == 0) {
-            argscharcount=(argscharcount + (strlen(argv[counter])));
+            argscharcount=(argscharcount + 1 + (strlen(argv[counter])));
         }
     }
     if (argscharcount == 0) {
         displayhelp();
         exit(EXIT_FAILURE);
     }
-    argscharcount=argscharcount + 2;
+    argscharcount=argscharcount + 1;
 
     /* Display speech bubble */
     printf(" ");
     for(counter=1; counter <= argscharcount; counter++) {
         printf("_");
     }
-    printf("\n< ");
+
+    if ( thought == 0 ) {
+        printf("\n< ");
+    }
+    else if ( thought == 1 ) {
+        printf("\n( ");
+    }
+
     for(counter=1; counter < argc; counter++) {
         skiparg=0;
-        if ( !strcmp(argv[counter], "-c") || !strcmp(argv[counter], "--cow") || !strcmp(argv[counter], "-e") || !strcmp(argv[counter], "--eyes")) {
+        if ( !strcmp(argv[counter], "-c") || !strcmp(argv[counter], "--cow") || !strcmp(argv[counter], "-e") || !strcmp(argv[counter], "--eyes") ) {
             skiparg=1;
             counter++;
         }
-        else if ( counter < argc && skiparg == 0) {
-            printf("%s", argv[counter]);
+        else if ( !strcmp(argv[counter], "-t") || !strcmp(argv[counter], "--thought") ) {
+            skiparg=1;
         }
-        else if (skiparg == 0) {
+        else if ( skiparg == 0 ) {
             printf("%s ", argv[counter]);
         }
     }
-    printf(" >\n ");
+
+    if ( thought == 0 ) {
+        printf(">\n ");
+    }
+    else if ( thought == 1 ) {
+        printf(")\n ");
+    }
     for(counter=1; counter <= argscharcount; counter++) {
         printf("-");
     }
     printf("\n");
     printcow();
     return 0;
-    
 }
 
 void displaycowlist(void) {
@@ -141,7 +162,7 @@ flaming-sheep\tThe flaming sheep, contributed by Geordan Rosario (geordan@csua.b
 ghostbusters\tGhostbusters!\n\
 head-in\tGo stick yer head in a cow.\n\
 hellokitty\tHello Kitty\n\
-kiss\tA lovers' empbrace\n\
+kiss\tA lovers' embrace\n\
 kitty\tA kitten of sorts, I think\n\
 koala\tFrom the canonical koala collection\n\
 kosh\tIt's a Kosh Cow!\n\
@@ -175,45 +196,17 @@ Usage:\n\
     ccowsay <flag(s)> Sentence to say\n\
 \n\
 Flags:\n\
-    -h or --help - Displays this help text.\n\
-    -l or --list - List all cowfiles.\n\
-    -c or --cow  - Specify cowfile.\n\
-    -e or --eyes - Specify character used for the eyes. Must be ONE character\n");
+    -h or --help    - Displays this help text\n\
+    -l or --list    - List all cowfiles\n\
+    -c or --cow     - Specify cowfile\n\
+    -e or --eyes    - Specify character used for the eyes. Must be ONE character!\n\
+    -t or --thought - Thought bubble\n");
 }
 
 void printcow(void) {
-/*printf("   \\         __------~~-,\n\
-    \\      ,'            ,\n\
-          /               \\\n\
-         /                :\n\
-        |                  '\n\
-        |                  |\n\
-        |                  |\n\
-         |   _--           |\n\
-         _| =-.     .-.   |\n\
-         o|/o/       _.   |\n\
-         /  ~          \\ |\n\
-       (____@)  ___~    |\n\
-          |_===~~~.`    |\n\
-       _______.--~     |\n\
-       \\________       |\n\
-                \\      |\n\
-              __/-___-- -__\n\
-             /            _ \\\n");*/
-/*printf("         \\\n\
-          \\\n\
-            ^__^\n\
-    _______/(%c%c)\n\
-/\\/(       /(__)\n\
-   | W----|| |~|\n\
-   ||     || |~|  ~~\n\
-             |~|  ~\n\
-             |_| o\n\
-             |#|/\n\
-            _+#+_\n", eyes, eyes);*/
-printf("        \\   ^__^\n\
-         \\  (%c%c)\\_______\n\
+printf("        %c   ^__^\n\
+         %c  (%c%c)\\_______\n\
             (__)\\       )\\/\\\n\
                 ||----w |\n\
-                ||     ||\n", eyes, eyes);
+                ||     ||\n", upperbubble, lowerbubble, eyes, eyes);
 }
